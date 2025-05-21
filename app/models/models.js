@@ -19,8 +19,7 @@ const Bearing = sequelize.define("bearing", {
   name: { type: DataTypes.STRING, unique },
   url: { type: DataTypes.STRING, unique },
   title: { type: DataTypes.STRING, unique },
-  h1: { type: DataTypes.STRING },
-  unique,
+  h1: { type: DataTypes.STRING, unique },
   description: { type: DataTypes.STRING, unique },
   group: { type: DataTypes.STRING },
   for_img: { type: DataTypes.STRING },
@@ -33,13 +32,14 @@ const Bearing = sequelize.define("bearing", {
   outerDiameter: { type: DataTypes.STRING },
   width: { type: DataTypes.STRING },
   weight: { type: DataTypes.STRING },
-  new: { type: DataTypes.BOOLEAN },
+  new_product: { type: DataTypes.BOOLEAN },
   stock: { type: DataTypes.INTEGER },
   popular: { type: DataTypes.BOOLEAN },
   seal: { type: DataTypes.STRING }, // открытый, закрытый
+  bearing_seal: { type: DataTypes.STRING }, // ZZ, 2RS
   sep: { type: DataTypes.STRING }, // стальнй, латунный
   material: { type: DataTypes.STRING }, // сталь ШХ 15
-  groove: { type: DataTypes.STRING }, // канавка
+  groove: { type: DataTypes.STRING }, // канавка под стопорное кольцо
   inner_ring: { type: DataTypes.STRING }, // внутренее кольцо
   outer_ring: { type: DataTypes.STRING }, // наружное кольцо
   groove_for_balls: { type: DataTypes.STRING }, // канавка для шариков
@@ -56,7 +56,15 @@ const Bearing = sequelize.define("bearing", {
   bearing_type: { type: DataTypes.STRING }, // качения, скольжения
   roller_type: { type: DataTypes.STRING }, // шариковый, роликовый
   load_type: { type: DataTypes.STRING }, // радиальный, упорный
-  bearing_seal: { type: DataTypes.STRING }, // ZZ, 2RS
   row_count: { type: DataTypes.STRING }, // однорядный, двухрядный
   bearing_design: { type: DataTypes.STRING }, // сферический, миниатюрный, шарнирный
 });
+
+const BearingInfo = sequelize.define("bearing_info", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  title: { type: DataTypes.STRING, allowNull: false },
+  description: { type: DataTypes.STRING, allowNull: false },
+});
+
+Bearing.hasMany(BearingInfo, { as: "info" });
+BearingInfo.belongsTo(Bearing);
