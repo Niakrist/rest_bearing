@@ -8,6 +8,31 @@ const User = sequelize.define("user", {
   role: { type: DataTypes.STRING, defaultValue: "USER" },
 });
 
+// Создаем промежуточные таблицы для связей many-to-many
+const BearingStandart = sequelize.define("bearing_standart", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const BearingBearingType = sequelize.define("bearing_bearing_type", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const BearingRollerType = sequelize.define("bearing_roller_type", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const BearingLoadType = sequelize.define("bearing_load_type", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const BearingRowCount = sequelize.define("bearing_row_count", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const BearingBearingDesign = sequelize.define("bearing_bearing_design", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
 const Bearing = sequelize.define("bearing", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   id1c: { type: DataTypes.STRING },
@@ -16,11 +41,11 @@ const Bearing = sequelize.define("bearing", {
   priceRvz: { type: DataTypes.INTEGER },
   quantity: { type: DataTypes.INTEGER },
   quantityRvz: { type: DataTypes.INTEGER },
-  name: { type: DataTypes.STRING, unique },
-  url: { type: DataTypes.STRING, unique },
-  title: { type: DataTypes.STRING, unique },
-  h1: { type: DataTypes.STRING, unique },
-  description: { type: DataTypes.STRING, unique },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
   group: { type: DataTypes.STRING },
   for_img: { type: DataTypes.STRING },
   brand: { type: DataTypes.STRING },
@@ -30,34 +55,28 @@ const Bearing = sequelize.define("bearing", {
   content: { type: DataTypes.STRING },
   innerDiameter: { type: DataTypes.STRING },
   outerDiameter: { type: DataTypes.STRING },
-  width: { type: DataTypes.STRING },
+  widthBearing: { type: DataTypes.STRING },
   weight: { type: DataTypes.STRING },
   new_product: { type: DataTypes.BOOLEAN },
   stock: { type: DataTypes.INTEGER },
   popular: { type: DataTypes.BOOLEAN },
-  seal: { type: DataTypes.STRING }, // открытый, закрытый
-  bearing_seal: { type: DataTypes.STRING }, // ZZ, 2RS
-  sep: { type: DataTypes.STRING }, // стальнй, латунный
-  material: { type: DataTypes.STRING }, // сталь ШХ 15
-  groove: { type: DataTypes.STRING }, // канавка под стопорное кольцо
-  inner_ring: { type: DataTypes.STRING }, // внутренее кольцо
-  outer_ring: { type: DataTypes.STRING }, // наружное кольцо
-  groove_for_balls: { type: DataTypes.STRING }, // канавка для шариков
-  hole: { type: DataTypes.STRING }, // отверстие
-  corner: { type: DataTypes.STRING }, // угол
-  feature: { type: DataTypes.STRING }, // особенность 1
-  feature_2: { type: DataTypes.STRING }, // особенность 2
-  montage: { type: DataTypes.STRING }, // монтаж
-  bushing: { type: DataTypes.STRING }, // втулка
-  corpus: { type: DataTypes.STRING }, // корпус
-  bearing_for_corpus: { type: DataTypes.STRING }, // подшипник для корпуса
-  series: { type: DataTypes.STRING }, // серия
-  standart: { type: DataTypes.STRING }, // ГОСТ, ISO
-  bearing_type: { type: DataTypes.STRING }, // качения, скольжения
-  roller_type: { type: DataTypes.STRING }, // шариковый, роликовый
-  load_type: { type: DataTypes.STRING }, // радиальный, упорный
-  row_count: { type: DataTypes.STRING }, // однорядный, двухрядный
-  bearing_design: { type: DataTypes.STRING }, // сферический, миниатюрный, шарнирный
+  seal: { type: DataTypes.STRING },
+  bearing_seal: { type: DataTypes.STRING },
+  sep: { type: DataTypes.STRING },
+  material: { type: DataTypes.STRING },
+  groove: { type: DataTypes.STRING },
+  inner_ring: { type: DataTypes.STRING },
+  outer_ring: { type: DataTypes.STRING },
+  groove_for_balls: { type: DataTypes.STRING },
+  hole: { type: DataTypes.STRING },
+  corner: { type: DataTypes.STRING },
+  feature: { type: DataTypes.STRING },
+  feature_2: { type: DataTypes.STRING },
+  montage: { type: DataTypes.STRING },
+  bushing: { type: DataTypes.STRING },
+  corpus: { type: DataTypes.STRING },
+  bearing_for_corpus: { type: DataTypes.STRING },
+  series: { type: DataTypes.STRING },
 });
 
 const BearingInfo = sequelize.define("bearing_info", {
@@ -66,5 +85,90 @@ const BearingInfo = sequelize.define("bearing_info", {
   description: { type: DataTypes.STRING, allowNull: false },
 });
 
+const Standart = sequelize.define("standart", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+const BearingType = sequelize.define("bearing_type", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: false, allowNull: false },
+});
+
+const RollerType = sequelize.define("roller_type", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+const LoadType = sequelize.define("load_type", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+const RowCount = sequelize.define("row_count", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+const BearingDesign = sequelize.define("bearing_design", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
+
+// Определяем связи belongsToMany
+Bearing.belongsToMany(Standart, { through: BearingStandart });
+Standart.belongsToMany(Bearing, { through: BearingStandart });
+
+Bearing.belongsToMany(BearingType, { through: BearingBearingType });
+BearingType.belongsToMany(Bearing, { through: BearingBearingType });
+
+Bearing.belongsToMany(RollerType, { through: BearingRollerType });
+RollerType.belongsToMany(Bearing, { through: BearingRollerType });
+
+Bearing.belongsToMany(LoadType, { through: BearingLoadType });
+LoadType.belongsToMany(Bearing, { through: BearingLoadType });
+
+Bearing.belongsToMany(RowCount, { through: BearingRowCount });
+RowCount.belongsToMany(Bearing, { through: BearingRowCount });
+
+Bearing.belongsToMany(BearingDesign, { through: BearingBearingDesign });
+BearingDesign.belongsToMany(Bearing, { through: BearingBearingDesign });
+
 Bearing.hasMany(BearingInfo, { as: "info" });
 BearingInfo.belongsTo(Bearing);
+
+export {
+  User,
+  Bearing,
+  BearingInfo,
+  Standart,
+  BearingType,
+  RollerType,
+  LoadType,
+  RowCount,
+  BearingDesign,
+  BearingStandart,
+  BearingBearingType,
+  BearingRollerType,
+  BearingLoadType,
+  BearingRowCount,
+  BearingBearingDesign,
+};
