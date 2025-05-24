@@ -8,31 +8,6 @@ const User = sequelize.define("user", {
   role: { type: DataTypes.STRING, defaultValue: "USER" },
 });
 
-// Создаем промежуточные таблицы для связей many-to-many
-const BearingStandart = sequelize.define("bearing_standart", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-
-const BearingBearingType = sequelize.define("bearing_bearing_type", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-
-const BearingRollerType = sequelize.define("bearing_roller_type", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-
-const BearingLoadType = sequelize.define("bearing_load_type", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-
-const BearingRowCount = sequelize.define("bearing_row_count", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-
-const BearingBearingDesign = sequelize.define("bearing_bearing_design", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-});
-
 const Bearing = sequelize.define("bearing", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   id1c: { type: DataTypes.STRING },
@@ -53,30 +28,39 @@ const Bearing = sequelize.define("bearing", {
   analogUrl: { type: DataTypes.STRING },
   images: { type: DataTypes.STRING },
   content: { type: DataTypes.STRING },
-  innerDiameter: { type: DataTypes.STRING },
-  outerDiameter: { type: DataTypes.STRING },
-  widthBearing: { type: DataTypes.STRING },
   weight: { type: DataTypes.STRING },
   new_product: { type: DataTypes.BOOLEAN },
   stock: { type: DataTypes.INTEGER },
   popular: { type: DataTypes.BOOLEAN },
-  seal: { type: DataTypes.STRING },
-  bearing_seal: { type: DataTypes.STRING },
-  sep: { type: DataTypes.STRING },
-  material: { type: DataTypes.STRING },
-  groove: { type: DataTypes.STRING },
-  inner_ring: { type: DataTypes.STRING },
-  outer_ring: { type: DataTypes.STRING },
-  groove_for_balls: { type: DataTypes.STRING },
-  hole: { type: DataTypes.STRING },
-  corner: { type: DataTypes.STRING },
-  feature: { type: DataTypes.STRING },
-  feature_2: { type: DataTypes.STRING },
-  montage: { type: DataTypes.STRING },
-  bushing: { type: DataTypes.STRING },
-  corpus: { type: DataTypes.STRING },
-  bearing_for_corpus: { type: DataTypes.STRING },
-  series: { type: DataTypes.STRING },
+
+  innerDiameter: { type: DataTypes.FLOAT },
+  outerDiameter: { type: DataTypes.FLOAT },
+  widthBearing: { type: DataTypes.FLOAT },
+
+  // Внешние ключи
+  sealId: { type: DataTypes.INTEGER },
+  bearingSealId: { type: DataTypes.INTEGER },
+  sepId: { type: DataTypes.INTEGER },
+  materialId: { type: DataTypes.INTEGER },
+  grooveId: { type: DataTypes.INTEGER },
+  holeId: { type: DataTypes.INTEGER },
+  cornerId: { type: DataTypes.INTEGER },
+  featureId: { type: DataTypes.INTEGER },
+  feature2Id: { type: DataTypes.INTEGER },
+  // montageId: { type: DataTypes.INTEGER },
+  bushingId: { type: DataTypes.INTEGER },
+  corpusId: { type: DataTypes.INTEGER },
+  bearingForCorpusId: { type: DataTypes.INTEGER },
+  seriesId: { type: DataTypes.INTEGER },
+  standartId: { type: DataTypes.INTEGER },
+  bearingTypeId: { type: DataTypes.INTEGER },
+  rollerTypeId: { type: DataTypes.INTEGER },
+  loadTypeId: { type: DataTypes.INTEGER },
+  rowCountId: { type: DataTypes.INTEGER },
+  bearingDesignId: { type: DataTypes.INTEGER },
+  innerRingId: { type: DataTypes.INTEGER },
+  outerRingId: { type: DataTypes.INTEGER },
+  grooveForBallsId: { type: DataTypes.INTEGER },
 });
 
 const BearingInfo = sequelize.define("bearing_info", {
@@ -85,72 +69,166 @@ const BearingInfo = sequelize.define("bearing_info", {
   description: { type: DataTypes.STRING, allowNull: false },
 });
 
+// Наличие заглушки открытый / закрытый
+const Seal = sequelize.define("seal", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Тип уплотнения подшипника Z / ZZ / RS / 2RS
+const BearingSeal = sequelize.define("bearing_seal", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Сепаратор стальной / латунный
+const Sep = sequelize.define("sep", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Материал ШХ15 / Нержавеющий
+const Material = sequelize.define("material", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Канавка с канавкой на наружном кольце
+const Groove = sequelize.define("groove", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Отверстие цилиндрическое / коническое
+const Hole = sequelize.define("hole", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Угол 12 / 26 / 32
+const Corner = sequelize.define("corner", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Особенность
+const Feature = sequelize.define("feature", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Особенность
+const Feature2 = sequelize.define("feature_2", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Монтаж
+// const Montage = sequelize.define("montage", {
+//   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+//   name: { type: DataTypes.STRING, unique: true }
+// });
+
+// Втулка H311 / H312
+const Bushing = sequelize.define("bushing", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Корпус FB204 / FB205
+const Corpus = sequelize.define("corpus", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Подшипник для корпуса UC201 / UC202
+const BearingForCorpus = sequelize.define("bearing_for_corpus", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Серия UCFB / GE
+const Series = sequelize.define("series", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
+
+// Стандарт ГОСТ / ISO
 const Standart = sequelize.define("standart", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
+// Тип подшипника качения / скольжения
 const BearingType = sequelize.define("bearing_type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: false, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
+// Тип ролика шариковый / роликовый
 const RollerType = sequelize.define("roller_type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
+// Тип нагрузки радиальный / упорный
 const LoadType = sequelize.define("load_type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
+// Количество рядов однорядный / двухрядный
 const RowCount = sequelize.define("row_count", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
+// Конструкция подшипника корпусный подшипник / сферический
 const BearingDesign = sequelize.define("bearing_design", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
-// Определяем связи belongsToMany
-Bearing.belongsToMany(Standart, { through: BearingStandart });
-Standart.belongsToMany(Bearing, { through: BearingStandart });
+const InnerRing = sequelize.define("inner_ring", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
 
-Bearing.belongsToMany(BearingType, { through: BearingBearingType });
-BearingType.belongsToMany(Bearing, { through: BearingBearingType });
+const OuterRing = sequelize.define("outer_ring", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
 
-Bearing.belongsToMany(RollerType, { through: BearingRollerType });
-RollerType.belongsToMany(Bearing, { through: BearingRollerType });
+const GrooveForBalls = sequelize.define("groove_for_balls", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true },
+});
 
-Bearing.belongsToMany(LoadType, { through: BearingLoadType });
-LoadType.belongsToMany(Bearing, { through: BearingLoadType });
+// Установка связей
+Bearing.belongsTo(Seal, { foreignKey: "sealId" });
+Bearing.belongsTo(BearingSeal, { foreignKey: "bearingSealId" });
+Bearing.belongsTo(Sep, { foreignKey: "sepId" });
+Bearing.belongsTo(Material, { foreignKey: "materialId" });
+Bearing.belongsTo(Groove, { foreignKey: "grooveId" });
+Bearing.belongsTo(Hole, { foreignKey: "holeId" });
+Bearing.belongsTo(Corner, { foreignKey: "cornerId" });
+Bearing.belongsTo(Feature, { foreignKey: "featureId" });
+Bearing.belongsTo(Feature2, { as: "Feature2", foreignKey: "feature2Id" });
 
-Bearing.belongsToMany(RowCount, { through: BearingRowCount });
-RowCount.belongsToMany(Bearing, { through: BearingRowCount });
-
-Bearing.belongsToMany(BearingDesign, { through: BearingBearingDesign });
-BearingDesign.belongsToMany(Bearing, { through: BearingBearingDesign });
+// Bearing.belongsTo(Montage, { foreignKey: 'montageId' });
+Bearing.belongsTo(Bushing, { foreignKey: "bushingId" });
+Bearing.belongsTo(Corpus, { foreignKey: "corpusId" });
+Bearing.belongsTo(BearingForCorpus, { foreignKey: "bearingForCorpusId" });
+Bearing.belongsTo(Series, { foreignKey: "seriesId" });
+Bearing.belongsTo(Standart, { foreignKey: "standartId" });
+Bearing.belongsTo(BearingType, { foreignKey: "bearingTypeId" });
+Bearing.belongsTo(RollerType, { foreignKey: "rollerTypeId" });
+Bearing.belongsTo(LoadType, { foreignKey: "loadTypeId" });
+Bearing.belongsTo(RowCount, { foreignKey: "rowCountId" });
+Bearing.belongsTo(BearingDesign, { foreignKey: "bearingDesignId" });
+Bearing.belongsTo(InnerRing, { foreignKey: "innerRingId" });
+Bearing.belongsTo(OuterRing, { foreignKey: "outerRingId" });
+Bearing.belongsTo(GrooveForBalls, { foreignKey: "grooveForBallsId" });
 
 Bearing.hasMany(BearingInfo, { as: "info" });
 BearingInfo.belongsTo(Bearing);
@@ -159,16 +237,26 @@ export {
   User,
   Bearing,
   BearingInfo,
+  Seal,
+  BearingSeal,
+  Sep,
+  Material,
+  Groove,
+  Hole,
+  Corner,
+  Feature,
+  Feature2,
+  Bushing,
+  Corpus,
+  BearingForCorpus,
+  Series,
   Standart,
   BearingType,
   RollerType,
   LoadType,
   RowCount,
   BearingDesign,
-  BearingStandart,
-  BearingBearingType,
-  BearingRollerType,
-  BearingLoadType,
-  BearingRowCount,
-  BearingBearingDesign,
+  InnerRing,
+  OuterRing,
+  GrooveForBalls,
 };
