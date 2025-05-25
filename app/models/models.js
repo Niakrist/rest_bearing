@@ -72,82 +72,55 @@ const BearingInfo = sequelize.define("bearing_info", {
 // Наличие заглушки открытый / закрытый
 const Seal = sequelize.define("seal", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Тип уплотнения подшипника Z / ZZ / RS / 2RS
 const BearingSeal = sequelize.define("bearing_seal", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Сепаратор стальной / латунный
 const Sep = sequelize.define("sep", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Материал ШХ15 / Нержавеющий
 const Material = sequelize.define("material", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Канавка с канавкой на наружном кольце
 const Groove = sequelize.define("groove", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Отверстие цилиндрическое / коническое
 const Hole = sequelize.define("hole", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Угол 12 / 26 / 32
 const Corner = sequelize.define("corner", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Особенность
 const Feature = sequelize.define("feature", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Особенность
 const Feature2 = sequelize.define("feature_2", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true, allowNull: false },
-  title: { type: DataTypes.STRING, unique: true, allowNull: false },
-  description: { type: DataTypes.STRING, unique: true, allowNull: false },
-  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+  name: { type: DataTypes.STRING, unique: true },
 });
 
 // Монтаж
