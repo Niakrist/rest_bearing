@@ -1,9 +1,23 @@
+import { Sequelize } from "sequelize";
 import { models } from "../models/models.js";
 
 class SepController {
   async create(req, res) {
     try {
       const { name, title, h1, description, url } = req.body;
+
+      const existingCategory = await models.Sep.findOne({
+        where: {
+          [Sequelize.Op.or]: [{ name }, { title }, { url }],
+        },
+      });
+
+      if (existingCategory) {
+        return res.status(400).json({
+          message: `Категория ${name} уже существует`,
+        });
+      }
+
       const sep = await models.Sep.create({
         name,
         title,

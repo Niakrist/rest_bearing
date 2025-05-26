@@ -47,7 +47,7 @@ const Bearing = sequelize.define("bearing", {
   cornerId: { type: DataTypes.INTEGER },
   featureId: { type: DataTypes.INTEGER },
   feature2Id: { type: DataTypes.INTEGER },
-  // montageId: { type: DataTypes.INTEGER },
+  montageId: { type: DataTypes.INTEGER },
   bushingId: { type: DataTypes.INTEGER },
   corpusId: { type: DataTypes.INTEGER },
   bearingForCorpusId: { type: DataTypes.INTEGER },
@@ -72,68 +72,109 @@ const BearingInfo = sequelize.define("bearing_info", {
 // Наличие заглушки открытый / закрытый
 const Seal = sequelize.define("seal", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Тип уплотнения подшипника Z / ZZ / RS / 2RS
 const BearingSeal = sequelize.define("bearing_seal", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Сепаратор стальной / латунный
 const Sep = sequelize.define("sep", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Материал ШХ15 / Нержавеющий
 const Material = sequelize.define("material", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Канавка с канавкой на наружном кольце
 const Groove = sequelize.define("groove", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Отверстие цилиндрическое / коническое
 const Hole = sequelize.define("hole", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Угол 12 / 26 / 32
 const Corner = sequelize.define("corner", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Особенность
 const Feature = sequelize.define("feature", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Особенность
 const Feature2 = sequelize.define("feature_2", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, unique: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
 
 // Монтаж
-// const Montage = sequelize.define("montage", {
-//   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-//   name: { type: DataTypes.STRING, unique: true }
-// });
+const Montage = sequelize.define("montage", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, unique: true, allowNull: false },
+  title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
+  description: { type: DataTypes.STRING, unique: true, allowNull: false },
+  url: { type: DataTypes.STRING, unique: true, allowNull: false },
+});
 
 // Втулка H311 / H312
 const Bushing = sequelize.define("bushing", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -143,6 +184,7 @@ const Corpus = sequelize.define("corpus", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -152,6 +194,7 @@ const BearingForCorpus = sequelize.define("bearing_for_corpus", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -161,6 +204,7 @@ const Series = sequelize.define("series", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -170,6 +214,7 @@ const Standart = sequelize.define("standart", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -179,6 +224,7 @@ const BearingType = sequelize.define("bearing_type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -188,6 +234,7 @@ const RollerType = sequelize.define("roller_type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -197,6 +244,7 @@ const LoadType = sequelize.define("load_type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -206,6 +254,7 @@ const RowCount = sequelize.define("row_count", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -215,6 +264,7 @@ const BearingDesign = sequelize.define("bearing_design", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -224,6 +274,7 @@ const InnerRing = sequelize.define("inner_ring", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -233,6 +284,7 @@ const OuterRing = sequelize.define("outer_ring", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -242,6 +294,7 @@ const GrooveForBalls = sequelize.define("groove_for_balls", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   title: { type: DataTypes.STRING, unique: true, allowNull: false },
+  h1: { type: DataTypes.STRING, unique: true, allowNull: false },
   description: { type: DataTypes.STRING, unique: true, allowNull: false },
   url: { type: DataTypes.STRING, unique: true, allowNull: false },
 });
@@ -256,8 +309,7 @@ Bearing.belongsTo(Hole, { foreignKey: "holeId" });
 Bearing.belongsTo(Corner, { foreignKey: "cornerId" });
 Bearing.belongsTo(Feature, { foreignKey: "featureId" });
 Bearing.belongsTo(Feature2, { as: "Feature2", foreignKey: "feature2Id" });
-
-// Bearing.belongsTo(Montage, { foreignKey: 'montageId' });
+Bearing.belongsTo(Montage, { foreignKey: "montageId" });
 Bearing.belongsTo(Bushing, { foreignKey: "bushingId" });
 Bearing.belongsTo(Corpus, { foreignKey: "corpusId" });
 Bearing.belongsTo(BearingForCorpus, { foreignKey: "bearingForCorpusId" });
@@ -301,4 +353,5 @@ export const models = {
   InnerRing,
   OuterRing,
   GrooveForBalls,
+  Montage,
 };

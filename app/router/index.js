@@ -24,6 +24,7 @@ import sealRouter from "./sealRouter.js";
 import sepRouter from "./sepRouter.js";
 import seriesRouter from "./seriesRouter.js";
 import standartRouter from "./standartRouter.js";
+import montageRouter from "./montageRouter.js";
 
 router.use("/bearing", bearingRouter);
 router.use("/bearing-design", bearingDesignRouter);
@@ -45,8 +46,9 @@ router.use("/outer-ring", outerRingRouter);
 router.use("/roller-type", rollerTypeRouter);
 router.use("/row-count", rowCountRouter);
 router.use("/seal", sealRouter);
-router.use("/sep", sepRouter);
+router.use("/separator", sepRouter);
 router.use("/series", seriesRouter);
 router.use("/standart", standartRouter);
+router.use("./montage", montageRouter);
 
 export default router;
