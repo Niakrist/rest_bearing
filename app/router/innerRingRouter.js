@@ -17,6 +17,8 @@ export default router;
 // с широким внутренним кольцом - s-shirokim-vnutrennim-kolcom
 // со скосом на внутреннем кольце - so-skosom-na-vnutrennem-kolce
 
+// inner-ring
+
 {
   const id1 = {
     name: "без внутреннего кольца",

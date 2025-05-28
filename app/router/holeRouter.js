@@ -8,7 +8,9 @@ router.get("/", holeController.getAll);
 export default router;
 
 // коническое отверстие - konicheskoe-otverstie
-// цилиндрическое отверстие
+// цилиндрическое отверстие - cilindricheskoe-otverstie
+
+// hole
 
 {
   const id1 = {

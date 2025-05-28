@@ -15,6 +15,8 @@ export default router;
 // с длинными цилиндрическими роликами - s-dlinnymi-cilindricheskimi-rolikami
 // с короткими цилиндрическими роликами - s-korotkimi-cilindricheskimi-rolikami
 
+// feature
+
 {
   const id1 = {
     name: "дюймовые",

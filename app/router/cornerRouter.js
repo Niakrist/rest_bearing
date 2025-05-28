@@ -7,8 +7,6 @@ router.get("/", cornerController.getAll);
 
 export default router;
 
-// с трехточечным контактом - s-trehtochechnym-kontaktom
-// с четырехточечным контактом - s-chetyrehtochechnym-kontaktom
 // угол контакта 12 - ugol-kontakta-12
 // угол контакта 15 - ugol-kontakta-15
 // угол контакта 20 - ugol-kontakta-20
@@ -16,6 +14,11 @@ export default router;
 // угол контакта 36 - ugol-kontakta-36
 // угол контакта 40 - ugol-kontakta-40
 // угол контакта 60 - ugol-kontakta-60
+// с трехточечным контактом - s-trehtochechnym-kontaktom
+// с четырехточечным контактом - s-chetyrehtochechnym-kontaktom
+
+// corner
+
 {
   const id1 = {
     name: "угол контакта 12",

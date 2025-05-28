@@ -21,6 +21,8 @@ export default router;
 // со скосом на наружном кольце - so-skosom-na-naruzhnom-kolce
 // со сферической поверхностью наружного кольца - so-sfericheskoy-poverhnostyu-naruzhnogo-kolca
 
+// outer-ring
+
 {
   const id1 = {
     name: "без бортов на наружном кольце",

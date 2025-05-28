@@ -1,43 +1,41 @@
 import { Sequelize } from "sequelize";
 import { models } from "../models/models.js";
 
-class BushingController {
+class BushingTypeController {
   async create(req, res) {
     try {
       const { name, title, h1, description, url } = req.body;
-
-      const existingCategory = await models.Bushing.findOne({
+      const existingCategory = await models.BushingType.findOne({
         where: {
           [Sequelize.Op.or]: [{ name }, { title }, { url }],
         },
       });
-
       if (existingCategory) {
         return res.status(400).json({
           message: `Категория ${name} уже существует`,
         });
       }
 
-      const bushing = await models.Bushing.create({
+      const bushingType = await models.BushingType.create({
         name,
         title,
         h1,
         description,
         url,
       });
-      return res.json(bushing);
+      return res.json(bushingType);
     } catch (error) {
       console.log(error);
     }
   }
   async getAll(req, res) {
     try {
-      const bushings = await models.Bushing.findAll();
-      return res.json(bushings);
+      const bushingTypes = await models.BushingType.findAll();
+      return res.json(bushingTypes);
     } catch (error) {
       console.log(error);
     }
   }
 }
 
-export default new BushingController();
+export default new BushingTypeController();

@@ -12,6 +12,8 @@ export default router;
 // с плоским упорным кольцом - s-ploskim-upornym-kolcom
 // с фасонным упорным кольцом - s-fasonnym-upornym-kolcom
 
+// feature2
+
 {
   const id1 = {
     name: "без колец",
