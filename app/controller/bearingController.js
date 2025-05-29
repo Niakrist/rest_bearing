@@ -146,14 +146,9 @@ class BearingController {
         connectionId,
         limit,
         page,
-        minInnerDiameter,
-        maxInnerDiameter,
-        minOuterDiameter,
-        maxOuterDiameter,
-        minWidth,
-        maxWidth,
-        minPrice,
-        maxPrice,
+        innerDiameter,
+        outerDiameter,
+        widthBearing,
       } = req.body;
 
       page = page || 1;
@@ -164,7 +159,7 @@ class BearingController {
       const whereClause = {};
 
       if (bearingDesignId) {
-        const bearingDesignIds = standartId.split("|");
+        const bearingDesignIds = bearingDesignId.split("|");
         whereClause.bearingDesignId = { [Op.in]: bearingDesignIds };
       }
 
@@ -224,6 +219,10 @@ class BearingController {
         const sepIds = sepId.split("|");
         whereClause.sepId = { [Op.in]: sepIds };
       }
+      if (standartId) {
+        const standartIds = bearingDesignId.split("|");
+        whereClause.standartId = { [Op.in]: standartIds };
+      }
       if (bushingTypeId) {
         const bushingTypeIds = bushingTypeId.split("|");
         whereClause.bushingTypeId = { [Op.in]: bushingTypeIds };
@@ -235,6 +234,15 @@ class BearingController {
       if (connectionId) {
         const connectionIds = connectionId.split("|");
         whereClause.connectionId = { [Op.in]: connectionIds };
+      }
+      if (innerDiameter) {
+        whereClause.innerDiameter = innerDiameter;
+      }
+      if (outerDiameter) {
+        whereClause.outerDiameter = outerDiameter;
+      }
+      if (widthBearing) {
+        whereClause.widthBearing = widthBearing;
       }
 
       const bearing = await models.Bearing.findAndCountAll({
@@ -292,7 +300,7 @@ class BearingController {
       const whereClause = {};
 
       if (bearingDesignId) {
-        const bearingDesignIds = standartId.split("|");
+        const bearingDesignIds = bearingDesignId.split("|");
         whereClause.bearingDesignId = { [Op.in]: bearingDesignIds };
       }
 
@@ -333,7 +341,7 @@ class BearingController {
         whereClause.materialId = { [Op.in]: materialIds };
       }
       if (outerRingId) {
-        const outerRingIds = materialId.split("|");
+        const outerRingIds = outerRingId.split("|");
         whereClause.outerRingId = { [Op.in]: outerRingIds };
       }
       if (rollerTypeId) {
@@ -351,6 +359,10 @@ class BearingController {
       if (sepId) {
         const sepIds = sepId.split("|");
         whereClause.sepId = { [Op.in]: sepIds };
+      }
+      if (standartId) {
+        const standartIds = standartId.split("|");
+        whereClause.standartId = { [Op.in]: standartIds };
       }
       if (bushingTypeId) {
         const bushingTypeIds = bushingTypeId.split("|");
@@ -438,7 +450,44 @@ class BearingController {
     }
   }
 
-  async getById(req, res) {}
+  async getById(req, res) {
+    try {
+      const { url } = req.params;
+      const bearing = await models.Bearing.findOne({ where: { url } });
+      if (!bearing) {
+        return res.status(404).json({ message: `Страница ${url} не найдена` });
+      }
+      return res.json(bearing);
+    } catch (error) {
+      console.log(bearing);
+      return res.status(500).json({ message: "Ошибка при поиске подшипника" });
+    }
+  }
+  async searchBearings(req, res) {
+    try {
+      const { q } = req.body;
+      const whereClause = {
+        [Op.or]: [
+          { name: { [Op.iLike]: `%${q}%` } },
+          { title: { [Op.iLike]: `%${q}%` } },
+          { description: { [Op.iLike]: `%${q}%` } },
+          { content: { [Op.iLike]: `%${q}%` } },
+        ],
+      };
+
+      // Добавьте другие параметры фильтрации из otherParams
+
+      const bearings = await models.Bearing.findAll({
+        where: whereClause,
+        limit: 10, // Ограничение для выпадающего списка
+      });
+
+      return res.json({ rows: bearings, count: bearings.length });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Ошибка при поиске" });
+    }
+  }
 }
 
 export default new BearingController();
