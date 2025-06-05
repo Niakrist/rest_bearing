@@ -1,4 +1,5 @@
 import { Op } from "sequelize";
+import { sequelize } from "../db.js";
 import { models } from "../models/models.js";
 
 class BearingController {
@@ -281,6 +282,9 @@ class BearingController {
         connectionId,
         limit,
         page,
+        innerDiameter,
+        outerDiameter,
+        widthBearing,
         minInnerDiameter,
         maxInnerDiameter,
         minOuterDiameter,
@@ -376,6 +380,15 @@ class BearingController {
         const connectionIds = connectionId.split("|");
         whereClause.connectionId = { [Op.in]: connectionIds };
       }
+      if (innerDiameter) {
+        whereClause.innerDiameter = innerDiameter;
+      }
+      if (outerDiameter) {
+        whereClause.outerDiameter = outerDiameter;
+      }
+      if (widthBearing) {
+        whereClause.widthBearing = widthBearing;
+      }
       if (searchTerm) {
         whereClause[Op.or] = [
           { title: { [Op.iLike]: `%${searchTerm}%` } },
@@ -441,6 +454,14 @@ class BearingController {
         where: whereClause,
         limit,
         offset,
+        order: [
+          [
+            sequelize.literal('CASE WHEN "price" IS NULL THEN 1 ELSE 0 END'),
+            "ASC",
+          ],
+          ["price", "ASC"],
+          ["id", "ASC"],
+        ],
       });
 
       return res.json(bearings);
