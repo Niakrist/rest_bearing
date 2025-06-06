@@ -21,6 +21,7 @@ import standartRouter from "./standartRouter.js";
 import bushingTypeRouter from "./bushingTypeRouter.js";
 import lubricationHoleRouter from "./lubricationHoleRouter.js";
 import connectionRouter from "./connectionRouter.js";
+import sendEmailRouter from "./sendEmailRouter.js";
 
 router.use("/bearing", bearingRouter);
 router.use("/bearingDesignId", bearingDesignRouter);
@@ -43,5 +44,7 @@ router.use("/standartId", standartRouter);
 router.use("/bushingTypeId", bushingTypeRouter);
 router.use("/lubricationHoleId", lubricationHoleRouter);
 router.use("/connectionId", connectionRouter);
+
+router.use("/send-email", sendEmailRouter);
 
 export default router;
