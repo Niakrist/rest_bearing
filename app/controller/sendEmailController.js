@@ -1,4 +1,8 @@
+import dotenv from "dotenv";
+
 import nodemailer from "nodemailer";
+
+dotenv.config();
 
 class SendEmailController {
   async send(req, res) {
