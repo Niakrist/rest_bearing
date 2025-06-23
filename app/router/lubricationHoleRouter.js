@@ -4,10 +4,10 @@ import lubricationHoleController from "../controller/lubricationHoleController.j
 
 const router = new Router();
 
-router.post("/", lubricationHoleController.create);
+// router.post("/", lubricationHoleController.create);
 router.get("/", lubricationHoleController.getAll);
-router.put("/", lubricationHoleController.editById);
-router.delete("/:id", lubricationHoleController.deleteById);
+// router.put("/", lubricationHoleController.editById);
+// router.delete("/:id", lubricationHoleController.deleteById);
 
 export default router;
 

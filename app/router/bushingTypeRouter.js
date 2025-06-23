@@ -3,7 +3,7 @@ import bushingTypeController from "../controller/bushingTypeController.js";
 
 const router = new Router();
 
-router.post("/", bushingTypeController.create);
+// router.post("/", bushingTypeController.create);
 router.get("/", bushingTypeController.getAll);
 
 export default router;

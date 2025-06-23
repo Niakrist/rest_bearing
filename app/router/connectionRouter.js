@@ -3,7 +3,7 @@ import connectionController from "../controller/connectionController.js";
 
 const router = new Router();
 
-router.post("/", connectionController.create);
+// router.post("/", connectionController.create);
 router.get("/", connectionController.getAll);
 
 export default router;
