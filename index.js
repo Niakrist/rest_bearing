@@ -6,6 +6,9 @@ import path, { dirname } from "path";
 
 import { sequelize } from "./app/db.js";
 import { models } from "./app/models/models.js";
+
+import "./app/cron.js";
+
 import router from "./app/router/index.js";
 
 dotenv.config();
