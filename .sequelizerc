@@ -1,12 +1,8 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import config from "./config/config.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Убедитесь, что ваш config.js экспортируется в формате CommonJS (require)
-// Временно закомментируйте  импорт и используйте require.
-// import config from "./config/config.js";
-const config = require("./config/config.js").default;
 
 export default {
   config: path.resolve(__dirname, "config", "config.js"),
