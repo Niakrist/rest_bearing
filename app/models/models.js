@@ -30,7 +30,7 @@ const Bearing = sequelize.define("bearing", {
     type: DataTypes.ARRAY(DataTypes.STRING),
     defaultValue: [],
   },
-  content: { type: DataTypes.STRING },
+  content: { type: DataTypes.TEXT },
   innerDiameter: { type: DataTypes.FLOAT },
   outerDiameter: { type: DataTypes.FLOAT },
   widthBearing: { type: DataTypes.FLOAT },
