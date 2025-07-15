@@ -1,14 +1,11 @@
-"use strict";
-
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
+export default {
+  async up(queryInterface, Sequelize) {
     await queryInterface.changeColumn("bearings", "content", {
       type: Sequelize.TEXT,
     });
   },
-
-  down: async (queryInterface, Sequelize) => {
+  async down(queryInterface, Sequelize) {
     await queryInterface.changeColumn("bearings", "content", {
       type: Sequelize.STRING,
     });
