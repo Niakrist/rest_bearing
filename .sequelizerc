@@ -9,3 +9,12 @@ export default {
   "seeders-path": path.resolve(__dirname, "seeders"),
   "models-path": path.resolve(__dirname, "models"),
 };
+
+// const config = require("./config/config.js").default;
+
+// export default {
+//   config: path.resolve(__dirname, "config", "config.js"),
+//   "migrations-path": path.resolve(__dirname, "migrations"),
+//   "seeders-path": path.resolve(__dirname, "seeders"),
+//   "models-path": path.resolve(__dirname, "models"),
+// };
