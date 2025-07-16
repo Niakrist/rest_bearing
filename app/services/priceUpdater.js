@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 class PriceUpdater {
   constructor() {
-    this.priceDir = path.join(__dirname, "../../../price");
+    this.priceDir = path.join(__dirname, "../../../../home/ftprvz/price");
   }
 
   async updatePrices() {
