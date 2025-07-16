@@ -246,7 +246,7 @@ class BearingController {
       if (widthBearing) {
         whereClause.widthBearing = widthBearing;
       }
-      if (popular) {
+      if (popular === true) {
         whereClause.popular = popular;
       }
 
@@ -254,6 +254,24 @@ class BearingController {
         where: whereClause,
         limit,
         offset,
+      });
+      return res.json(bearing);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Ошибка при поиске подшипника" });
+    }
+  }
+
+  async getAllWithoutPagination(req, res) {
+    try {
+      let { popular } = req.query || {};
+      const whereClause = {};
+      if (popular) {
+        whereClause.popular = popular;
+      }
+
+      const bearing = await models.Bearing.findAll({
+        where: whereClause,
       });
       return res.json(bearing);
     } catch (error) {
