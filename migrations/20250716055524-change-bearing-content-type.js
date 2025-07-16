@@ -1,16 +1,17 @@
-/** @type {import('sequelize-cli').Migration} */
+"use strict";
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.changeColumn("bearings", "content", {
       type: Sequelize.TEXT,
-      allowNull: true,
+      allowNull: true, // Или false, в зависимости от ваших требований
     });
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.changeColumn("bearings", "content", {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: true, // Соответствует исходному значению
     });
   },
 };
