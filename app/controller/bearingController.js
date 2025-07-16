@@ -150,6 +150,7 @@ class BearingController {
         innerDiameter,
         outerDiameter,
         widthBearing,
+        popular,
       } = req.body;
 
       page = page || 1;
@@ -244,6 +245,9 @@ class BearingController {
       }
       if (widthBearing) {
         whereClause.widthBearing = widthBearing;
+      }
+      if (popular) {
+        whereClause.popular = popular;
       }
 
       const bearing = await models.Bearing.findAndCountAll({
