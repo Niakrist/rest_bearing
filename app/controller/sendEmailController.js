@@ -97,8 +97,8 @@ class SendEmailController {
       });
 
       const mailOptions = {
-        from: '"Подшипник Дисконт" <sale@podshipnik-discount.ru>',
-        to: "sale@podshipnik-discount.ru",
+        from: `"Подшипник Дисконт" <${email}>`,
+        to: `${process.env.EMAIL_USER}`,
         subject: `Новый заказ от ${name}`,
         text: `Имя: ${name}\nТелефон: ${phone}\nEmail: ${email}\nКомментарий: ${
           comment || "Нет комментария"
