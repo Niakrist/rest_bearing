@@ -449,7 +449,7 @@ class BearingController {
       }
 
       if (minWidth || maxWidth) {
-        whereClause.width = {};
+        whereClause.widthBearing = {};
         if (minWidth && !maxWidth) {
           whereClause.widthBearing[Op.gte] = Number(minWidth);
         } else if (!minWidth && maxWidth) {
