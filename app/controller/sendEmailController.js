@@ -87,7 +87,7 @@ class SendEmailController {
         generateOrderTable(order);
 
       const transporter = nodemailer.createTransport({
-        host: "smtp.yandex.ru",
+        host: "smtp.mail.ru",
         port: 465,
         secure: true,
         auth: {
@@ -97,8 +97,8 @@ class SendEmailController {
       });
 
       const mailOptions = {
-        from: '"Подшипник Дисконт" <sale@podshipnik-discount.ru>',
-        to: "sale@podshipnik-discount.ru",
+        from: '"Подшипник Дисконт" <sales@rvzgroup.ru>',
+        to: "sales@rvzgroup.ru",
         subject: `Новый заказ от ${name}`,
         text: `Имя: ${name}\nТелефон: ${phone}\nEmail: ${email}\nКомментарий: ${
           comment || "Нет комментария"
