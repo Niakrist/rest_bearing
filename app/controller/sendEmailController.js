@@ -87,8 +87,8 @@ class SendEmailController {
         generateOrderTable(order);
 
       const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        host: "smtp.yandex.ru",
+        port: 465,
         secure: true,
         auth: {
           user: process.env.EMAIL_USER,
