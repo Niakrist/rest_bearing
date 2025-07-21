@@ -87,8 +87,8 @@ class SendEmailController {
         generateOrderTable(order);
 
       const transporter = nodemailer.createTransport({
-        host: "smtp.mail.ru",
-        port: 465,
+        host: process.env.EMAIL_HOST,
+        port: Number(process.env.EMAIL_PORT),
         secure: true,
         auth: {
           user: process.env.EMAIL_USER,
@@ -97,8 +97,8 @@ class SendEmailController {
       });
 
       const mailOptions = {
-        from: '"Подшипник Дисконт" <sales@rvzgroup.ru>',
-        to: "sales@rvzgroup.ru",
+        from: `"РВЗ ГРУПП" <${process.env.EMAIL_USER}>`,
+        to: `${process.env.EMAIL_USER}`,
         subject: `Новый заказ от ${name}`,
         text: `Имя: ${name}\nТелефон: ${phone}\nEmail: ${email}\nКомментарий: ${
           comment || "Нет комментария"
