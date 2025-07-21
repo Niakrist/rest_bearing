@@ -88,7 +88,7 @@ class SendEmailController {
 
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
-        port: 465,
+        port: Number(process.env.EMAIL_PORT),
         secure: true,
         auth: {
           user: process.env.EMAIL_USER,
