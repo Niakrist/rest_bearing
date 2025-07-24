@@ -529,6 +529,7 @@ class BearingController {
         where: {
           [Op.or]: [
             { name: { [Op.iLike]: `%${q}%` } },
+            { group: { [Op.iLike]: `%${q}%` } },
             { title: { [Op.iLike]: `%${q}%` } },
             { description: { [Op.iLike]: `%${q}%` } },
             { content: { [Op.iLike]: `%${q}%` } },
