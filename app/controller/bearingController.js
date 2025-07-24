@@ -524,69 +524,38 @@ class BearingController {
   async searchBearings(req, res) {
     try {
       const { q } = req.body;
-      const searchTerm = q.toLowerCase();
-      const searchWords = searchTerm
-        .split(/\s+/)
-        .filter((word) => word.length > 0); // Разбиваем запрос на слова
 
-      const whereClause = {
-        [Op.or]: [
-          { name: { [Op.iLike]: `%${searchTerm}%` } },
-          { group: { [Op.iLike]: `%${searchTerm}%` } },
-          { title: { [Op.iLike]: `%${searchTerm}%` } },
-          { description: { [Op.iLike]: `%${searchTerm}%` } },
-          { content: { [Op.iLike]: `%${searchTerm}%` } },
-        ],
-      };
+      // Создаем текстовый поисковый вектор (если еще не сделано в модели)
+      const searchVector = sequelize.fn(
+        "to_tsvector",
+        sequelize.col("name") +
+          " " +
+          sequelize.col("title") +
+          " " +
+          sequelize.col("description") +
+          " " +
+          sequelize.col("content")
+      );
 
-      const orderClause = [];
+      const searchQuery = sequelize.fn("to_tsquery", q);
 
-      // Ранжирование по количеству совпадений слов (более релевантно для многословных запросов)
-      if (searchWords.length > 0) {
-        orderClause.push([
-          sequelize.literal(
-            `CASE
-               ${searchWords
-                 .map(
-                   (word, index) => `
-                 WHEN LOWER(name) LIKE '%${word}%' THEN 1
-                 WHEN LOWER(group) LIKE '%${word}%' THEN 2
-                 WHEN LOWER(title) LIKE '%${word}%' THEN 3
-                 WHEN LOWER(description) LIKE '%${word}%' THEN 4
-                 WHEN LOWER(content) LIKE '%${word}%' THEN 5
-               `
-                 )
-                 .join("")}
-               ELSE 6
-             END`
-          ),
-          "DESC", // Сортируем по убыванию релевантности
-        ]);
-        orderClause.push([
-          sequelize.literal(
-            `CASE
-               ${searchWords
-                 .map(
-                   (word, index) => `
-                 WHEN LOWER(name) LIKE '${word}%' THEN 1
-                 WHEN LOWER(group) LIKE '${word}%' THEN 2
-                 WHEN LOWER(title) LIKE '${word}%' THEN 3
-                 WHEN LOWER(description) LIKE '${word}%' THEN 4
-                 WHEN LOWER(content) LIKE '${word}%' THEN 5
-               `
-                 )
-                 .join("")}
-               ELSE 6
-             END`
-          ),
-          "DESC", // Сортируем по убыванию релевантности
-        ]);
-      }
-      // Дополнительные параметры сортировки (опционально)
-      orderClause.push([sequelize.literal("LENGTH(name)"), "ASC"]); // Сортировка по длине имени (опционально)
       const bearings = await models.Bearing.findAll({
-        where: whereClause,
-        order: orderClause,
+        where: {
+          [Op.and]: [
+            sequelize.literal(
+              `to_tsvector('russian', name || ' ' || title || ' ' || description || ' ' || content) @@ to_tsquery('russian', '${q}:*')`
+            ),
+          ],
+        },
+        order: [
+          [
+            sequelize.literal(
+              `ts_rank(to_tsvector('russian', name || ' ' || title || ' ' || description || ' ' || content), to_tsquery('russian', '${q}:*'))`
+            ),
+            "DESC",
+          ],
+          [sequelize.literal(`similarity(name, '${q}')`), "DESC"],
+        ],
         limit: 10,
       });
 
