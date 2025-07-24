@@ -525,36 +525,24 @@ class BearingController {
     try {
       const { q } = req.body;
 
-      // Создаем текстовый поисковый вектор (если еще не сделано в модели)
-      const searchVector = sequelize.fn(
-        "to_tsvector",
-        sequelize.col("name") +
-          " " +
-          sequelize.col("title") +
-          " " +
-          sequelize.col("description") +
-          " " +
-          sequelize.col("content")
-      );
-
-      const searchQuery = sequelize.fn("to_tsquery", q);
-
       const bearings = await models.Bearing.findAll({
         where: {
-          [Op.and]: [
-            sequelize.literal(
-              `to_tsvector('russian', name || ' ' || title || ' ' || description || ' ' || content) @@ to_tsquery('russian', '${q}:*')`
-            ),
+          [Op.or]: [
+            { name: { [Op.iLike]: `%${q}%` } },
+            { title: { [Op.iLike]: `%${q}%` } },
+            { description: { [Op.iLike]: `%${q}%` } },
+            { content: { [Op.iLike]: `%${q}%` } },
           ],
         },
         order: [
           [
             sequelize.literal(
-              `ts_rank(to_tsvector('russian', name || ' ' || title || ' ' || description || ' ' || content), to_tsquery('russian', '${q}:*'))`
+              `CASE WHEN name ILIKE '${q}%' THEN 0 WHEN name ILIKE '%${q}%' THEN 1 ELSE 2 END`
             ),
-            "DESC",
+            "ASC",
           ],
-          [sequelize.literal(`similarity(name, '${q}')`), "DESC"],
+          [sequelize.literal(`POSITION(LOWER('${q}') IN LOWER(name))`), "ASC"],
+          [sequelize.literal("LENGTH(name)"), "ASC"],
         ],
         limit: 10,
       });
