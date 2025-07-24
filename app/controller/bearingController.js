@@ -254,6 +254,14 @@ class BearingController {
         where: whereClause,
         limit,
         offset,
+        order: [
+          [
+            sequelize.literal('CASE WHEN "price" IS NULL THEN 1 ELSE 0 END'),
+            "ASC",
+          ],
+          ["price", "ASC"],
+          ["id", "ASC"],
+        ],
       });
       return res.json(bearing);
     } catch (error) {
