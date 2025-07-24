@@ -491,14 +491,12 @@ class BearingController {
         limit,
         offset,
         order: [
-          // Сортируем по минимальной цене из двух полей
           [
             sequelize.literal(
               'CASE WHEN "priceRvz" IS NOT NULL AND "priceRvz" > 0 THEN LEAST("price", "priceRvz") ELSE "price" END'
             ),
             "ASC",
           ],
-          // Дополнительная сортировка для одинаковых цен (по вашему усмотрению)
           ["id", "ASC"],
         ],
       });
@@ -526,20 +524,39 @@ class BearingController {
   async searchBearings(req, res) {
     try {
       const { q } = req.body;
-      const whereClause = {
-        [Op.or]: [
-          { name: { [Op.iLike]: `%${q}%` } },
-          { title: { [Op.iLike]: `%${q}%` } },
-          { description: { [Op.iLike]: `%${q}%` } },
-          { content: { [Op.iLike]: `%${q}%` } },
-        ],
-      };
 
-      // Добавьте другие параметры фильтрации из otherParams
+      // Создаем текстовый поисковый вектор (если еще не сделано в модели)
+      const searchVector = sequelize.fn(
+        "to_tsvector",
+        sequelize.col("name") +
+          " " +
+          sequelize.col("title") +
+          " " +
+          sequelize.col("description") +
+          " " +
+          sequelize.col("content")
+      );
+
+      const searchQuery = sequelize.fn("to_tsquery", q);
 
       const bearings = await models.Bearing.findAll({
-        where: whereClause,
-        limit: 10, // Ограничение для выпадающего списка
+        where: {
+          [Op.and]: [
+            sequelize.literal(
+              `to_tsvector('russian', name || ' ' || title || ' ' || description || ' ' || content) @@ to_tsquery('russian', '${q}:*')`
+            ),
+          ],
+        },
+        order: [
+          [
+            sequelize.literal(
+              `ts_rank(to_tsvector('russian', name || ' ' || title || ' ' || description || ' ' || content), to_tsquery('russian', '${q}:*'))`
+            ),
+            "DESC",
+          ],
+          [sequelize.literal(`similarity(name, '${q}')`), "DESC"],
+        ],
+        limit: 10,
       });
 
       return res.json({ rows: bearings, count: bearings.length });
