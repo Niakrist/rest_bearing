@@ -524,27 +524,69 @@ class BearingController {
   async searchBearings(req, res) {
     try {
       const { q } = req.body;
+      const searchTerm = q.toLowerCase();
+      const searchWords = searchTerm
+        .split(/\s+/)
+        .filter((word) => word.length > 0); // Разбиваем запрос на слова
 
-      const bearings = await models.Bearing.findAll({
-        where: {
-          [Op.or]: [
-            { name: { [Op.iLike]: `%${q}%` } },
-            { group: { [Op.iLike]: `%${q}%` } },
-            { title: { [Op.iLike]: `%${q}%` } },
-            { description: { [Op.iLike]: `%${q}%` } },
-            { content: { [Op.iLike]: `%${q}%` } },
-          ],
-        },
-        order: [
-          [
-            sequelize.literal(
-              `CASE WHEN name ILIKE '${q}%' THEN 0 WHEN name ILIKE '%${q}%' THEN 1 ELSE 2 END`
-            ),
-            "ASC",
-          ],
-          [sequelize.literal(`POSITION(LOWER('${q}') IN LOWER(name))`), "ASC"],
-          [sequelize.literal("LENGTH(name)"), "ASC"],
+      const whereClause = {
+        [Op.or]: [
+          { name: { [Op.iLike]: `%${searchTerm}%` } },
+          { group: { [Op.iLike]: `%${searchTerm}%` } },
+          { title: { [Op.iLike]: `%${searchTerm}%` } },
+          { description: { [Op.iLike]: `%${searchTerm}%` } },
+          { content: { [Op.iLike]: `%${searchTerm}%` } },
         ],
+      };
+
+      const orderClause = [];
+
+      // Ранжирование по количеству совпадений слов (более релевантно для многословных запросов)
+      if (searchWords.length > 0) {
+        orderClause.push([
+          sequelize.literal(
+            `CASE
+               ${searchWords
+                 .map(
+                   (word, index) => `
+                 WHEN LOWER(name) LIKE '%${word}%' THEN 1
+                 WHEN LOWER(group) LIKE '%${word}%' THEN 2
+                 WHEN LOWER(title) LIKE '%${word}%' THEN 3
+                 WHEN LOWER(description) LIKE '%${word}%' THEN 4
+                 WHEN LOWER(content) LIKE '%${word}%' THEN 5
+               `
+                 )
+                 .join("")}
+               ELSE 6
+             END`
+          ),
+          "DESC", // Сортируем по убыванию релевантности
+        ]);
+        orderClause.push([
+          sequelize.literal(
+            `CASE
+               ${searchWords
+                 .map(
+                   (word, index) => `
+                 WHEN LOWER(name) LIKE '${word}%' THEN 1
+                 WHEN LOWER(group) LIKE '${word}%' THEN 2
+                 WHEN LOWER(title) LIKE '${word}%' THEN 3
+                 WHEN LOWER(description) LIKE '${word}%' THEN 4
+                 WHEN LOWER(content) LIKE '${word}%' THEN 5
+               `
+                 )
+                 .join("")}
+               ELSE 6
+             END`
+          ),
+          "DESC", // Сортируем по убыванию релевантности
+        ]);
+      }
+      // Дополнительные параметры сортировки (опционально)
+      orderClause.push([sequelize.literal("LENGTH(name)"), "ASC"]); // Сортировка по длине имени (опционально)
+      const bearings = await models.Bearing.findAll({
+        where: whereClause,
+        order: orderClause,
         limit: 10,
       });
 
