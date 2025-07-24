@@ -255,11 +255,14 @@ class BearingController {
         limit,
         offset,
         order: [
+          // Сортируем по минимальной цене из двух полей
           [
-            sequelize.literal('CASE WHEN "price" IS NULL THEN 1 ELSE 0 END'),
+            sequelize.literal(
+              'CASE WHEN "priceRvz" IS NOT NULL AND "priceRvz" > 0 THEN LEAST("price", "priceRvz") ELSE "price" END'
+            ),
             "ASC",
           ],
-          ["price", "ASC"],
+          // Дополнительная сортировка для одинаковых цен (по вашему усмотрению)
           ["id", "ASC"],
         ],
       });
@@ -488,11 +491,14 @@ class BearingController {
         limit,
         offset,
         order: [
+          // Сортируем по минимальной цене из двух полей
           [
-            sequelize.literal('CASE WHEN "price" IS NULL THEN 1 ELSE 0 END'),
+            sequelize.literal(
+              'CASE WHEN "priceRvz" IS NOT NULL AND "priceRvz" > 0 THEN LEAST("price", "priceRvz") ELSE "price" END'
+            ),
             "ASC",
           ],
-          ["price", "ASC"],
+          // Дополнительная сортировка для одинаковых цен (по вашему усмотрению)
           ["id", "ASC"],
         ],
       });
