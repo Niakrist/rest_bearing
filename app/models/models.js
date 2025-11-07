@@ -42,6 +42,7 @@ const Bearing = sequelize.define("bearing", {
   corpus: { type: DataTypes.STRING },
   series: { type: DataTypes.STRING },
   bushing: { type: DataTypes.STRING },
+  size: { type: DataTypes.STRING, allowNull: true },
 
   // Внешние ключи
   bearingDesignId: { type: DataTypes.INTEGER },
