@@ -151,6 +151,7 @@ class BearingController {
         outerDiameter,
         widthBearing,
         popular,
+        size
       } = req.body;
 
       page = page || 1;
@@ -245,6 +246,9 @@ class BearingController {
       }
       if (widthBearing) {
         whereClause.widthBearing = widthBearing;
+      }
+      if(size) {
+        whereClause.size = size;
       }
       if (popular === true) {
         whereClause.popular = popular;
