@@ -32,6 +32,8 @@ app.use((req, res, next) => {
     "https://www.rvzgroup.ru",
     "http://localhost:3000",
     "http://155.212.184.175",
+    "http://rvzgroup.ru",
+    "http://www.rvzgroup.ru",
   ];
 
   const origin = req.headers.origin;
