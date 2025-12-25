@@ -27,7 +27,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "app", "static")));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://rvzgroup.ru");
+  const allowedOrigins = [
+    "https://rvzgroup.ru",
+    "https://www.rvzgroup.ru",
+    "http://localhost:3000",
+    "http://155.212.184.175",
+  ];
+
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
