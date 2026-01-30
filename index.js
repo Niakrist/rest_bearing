@@ -32,7 +32,7 @@ app.use((req, res, next) => {
     "https://www.rvzgroup.ru",
     "http://localhost:3000",
     "http://localhost:4000",
-    "http://155.212.191.163",
+    "http://217.114.10.183",
     "http://rvzgroup.ru",
     "http://www.rvzgroup.ru",
   ];
@@ -44,8 +44,11 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Credentials", "true");
   }
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept, Origin"); 
-  
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Accept, Origin",
+  );
+
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
