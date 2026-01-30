@@ -32,7 +32,7 @@ app.use((req, res, next) => {
     "https://www.rvzgroup.ru",
     "http://localhost:3000",
     "http://localhost:4000",
-    "http://217.114.10.183",
+    "http://85.198.71.27",
     "http://rvzgroup.ru",
     "http://www.rvzgroup.ru",
   ];
