@@ -223,7 +223,7 @@ class BearingController {
         whereClause.sepId = { [Op.in]: sepIds };
       }
       if (standartId) {
-        const standartIds = bearingDesignId.split("|");
+        const standartIds = standartId.split("|");
         whereClause.standartId = { [Op.in]: standartIds };
       }
       if (bushingTypeId) {

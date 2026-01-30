@@ -1,0 +1,75 @@
+name: Deploy Express Backend
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          echo "🚀 Starting backend deployment..."
+          echo "================================"
+          
+          # Активируем Node.js (такая же версия как у фронтенда)
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm use 22.14.0
+          
+          # Переходим в директорию backend
+          cd /root/projects/backend
+          echo "📂 Working in: $(pwd)"
+          
+          # Получаем обновления
+          echo "📥 Fetching latest code..."
+          git fetch origin
+          git reset --hard origin/master
+          echo "✅ Code updated to: $(git log --oneline -1)"
+          
+          # Устанавливаем зависимости (только production)
+          echo "📦 Installing dependencies..."
+          npm ci --only=production
+          
+          # 🔄 ВАЖНО: Сохраняем существующий .env файл
+          # Проверяем есть ли .env, если есть - сохраняем
+          if [ -f .env ]; then
+            echo "🔐 Preserving existing .env file..."
+            cp .env .env.backup_$(date +%s)
+          else
+            echo "⚠️  Warning: .env file not found!"
+          fi
+          
+          # Перезапускаем процесс через PM2
+          echo "🔄 Restarting backend..."
+          pm2 restart rvz-backend
+          
+          # Проверяем что процесс запустился
+          echo "🏥 Health check..."
+          sleep 3  # Даем время на запуск
+          
+          # Проверка доступности бэкенда
+          if curl -s -f http://localhost:4000/api/v1/ > /dev/null; then
+            echo "✅ Backend is responding at http://localhost:4000"
+          else
+            echo "⚠️  Backend check failed, but deployment completed"
+            echo "    Check manually: curl http://localhost:4000/api/v1/"
+          fi
+          
+          echo "✅ Backend deployment completed!"
+          echo "⏰ Finished at: $(date)"
+          echo ""
+          echo "📊 PM2 status:"
+          pm2 list | grep rvz-backend
